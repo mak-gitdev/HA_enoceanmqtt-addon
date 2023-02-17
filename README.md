@@ -50,7 +50,7 @@ The migration is possible without losing your current setup:
         mqtt:
           discovery_prefix: <prefix>
         ```
-     If you have other HA integrations using MQTT discovery (e.g. zigbee2mqtt, etc.), **mqtt_discovery_prefix** should be set to `homeassistant/` as it seems to be the one used in general.
+     If you have other HA integrations using MQTT discovery (e.g. zigbee2mqtt, etc.), **mqtt_discovery_prefix** should be set to `homeassistant` as it seems to be the one used in general.
     - Indicate the `mqtt_prefix` under the **mqtt_prefix** entry. This is the prefix which will be used to interact with your EnOcean devices.  
       EnOceanMQTT will interact with EnOcean devices through the device root topic `<mqtt_prefix>/<device_name>`.
     - Turn on the **debug** switch if you want a very verbose log file.
@@ -61,7 +61,7 @@ The migration is possible without losing your current setup:
 1. Wait till HA_enoceanmqtt starts and press **Log** to verify HA_enoceanmqtt started correctly.
 
 ## Usage
-See [Usage](https://github.com/mak-gitdev/HA_enoceanmqtt#usage) for more information.
+See [Usage](https://github.com/mak-gitdev/HA_enoceanmqtt/wiki/Usage) for more information.
 
 
 ## Issues

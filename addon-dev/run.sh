@@ -1,8 +1,12 @@
 #!/usr/bin/with-contenv bashio
 
-bashio::log.green "Preparing to start..."
-
 bashio::config.require 'device_file'
+bashio::config.require 'mqtt_discovery_prefix'
+bashio::config.require 'mqtt_prefix'
+bashio::config.require 'mqtt_client_id'
+bashio::config.require 'mqtt_keepalive'
+
+bashio::log.green "Preparing to start..."
 
 # Set files to be used
 export CONFIG_FILE="/data/enoceanmqtt.conf"
@@ -59,18 +63,23 @@ else
 fi
 
 # Create enoceanmqtt configuration file
+MQTT_PREFIX=$(bashio::config 'mqtt_prefix')
+MQTT_DISCOVERY_PREFIX=$(bashio::config 'mqtt_discovery_prefix')
+MQTT_PREFIX="${MQTT_PREFIX%/}/"
+MQTT_DISCOVERY_PREFIX="${MQTT_DISCOVERY_PREFIX%/}/"
+
 echo "[CONFIG]"                                                           > $CONFIG_FILE
 echo "enocean_port          = $(bashio::config 'enocean_port')"          >> $CONFIG_FILE
 echo "log_packets           = $(bashio::config 'log_packets')"           >> $CONFIG_FILE
 echo "overlay               = HA"                                        >> $CONFIG_FILE
 echo "db_file               = $DB_FILE"                                  >> $CONFIG_FILE
 echo "mapping_file          = $MAPPING_FILE"                             >> $CONFIG_FILE
-echo "mqtt_discovery_prefix = $(bashio::config 'mqtt_discovery_prefix')" >> $CONFIG_FILE
+echo "mqtt_discovery_prefix = $MQTT_DISCOVERY_PREFIX"                    >> $CONFIG_FILE
 echo "mqtt_host             = $MQTT_HOST"                                >> $CONFIG_FILE
 echo "mqtt_port             = $MQTT_PORT"                                >> $CONFIG_FILE
 echo "mqtt_client_id        = $(bashio::config 'mqtt_client_id')"        >> $CONFIG_FILE
 echo "mqtt_keepalive        = $(bashio::config 'mqtt_keepalive')"        >> $CONFIG_FILE
-echo "mqtt_prefix           = $(bashio::config 'mqtt_prefix')"           >> $CONFIG_FILE
+echo "mqtt_prefix           = $MQTT_PREFIX"                              >> $CONFIG_FILE
 echo "mqtt_user             = $MQTT_USER"                                >> $CONFIG_FILE
 echo "mqtt_pwd              = $MQTT_PSWD"                                >> $CONFIG_FILE
 echo "mqtt_debug            = $(bashio::config 'debug')"                 >> $CONFIG_FILE
@@ -79,6 +88,18 @@ cat $DEVICE_FILE                                                         >> $CON
 
 # Delete previous session log
 rm -f $LOG_FILE
+
+if ! bashio::config.is_empty 'eep_file'; then
+   EEP_FILE="$(bashio::config 'eep_file')"
+   EEP_FILE_LOCATION=$(find / -name "EEP.xml" -print -quit 2>/dev/null)
+
+   if [ -e $EEP_FILE ]; then
+      bashio::log.green "Installing custom EEP.xml ..."
+      cp -f $EEP_FILE $EEP_FILE_LOCATION
+   else
+      bashio::exit.nok "Custom EEP file not found at location $EEP_FILE"
+   fi
+fi
 
 bashio::log.green "Starting EnOceanMQTT..."
 enoceanmqtt $DEBUG_FLAG --logfile $LOG_FILE $CONFIG_FILE

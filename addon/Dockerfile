@@ -12,9 +12,7 @@ RUN apk add --no-cache python3 py3-pip git && \
     pip3 install pyyaml && \
     pip3 install tinydb && \
     git clone https://github.com/embyt/enocean-mqtt.git && \
-    cd enocean-mqtt && \
-    python3 setup.py develop && \
-    cd .. && \
+    cd enocean-mqtt && python3 setup.py develop && cd .. && \
     if [ -z "${BUILD_VERSION##*.*.*}" ]; then \
         echo "Installing development version ${BUILD_VERSION%-*}" && \
         git clone -b develop --single-branch --depth 1 https://github.com/mak-gitdev/HA_enoceanmqtt.git ; \

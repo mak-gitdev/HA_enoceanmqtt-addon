@@ -1,15 +1,19 @@
 #!/usr/bin/with-contenv bashio
 
-bashio::log.green "Preparing to start..."
-
 bashio::config.require 'device_file'
+bashio::config.require 'mqtt_discovery_prefix'
+bashio::config.require 'mqtt_prefix'
+bashio::config.require 'mqtt_client_id'
+bashio::config.require 'mqtt_keepalive'
+
+bashio::log.green "Preparing to start..."
 
 # Set files to be used
 export CONFIG_FILE="/data/enoceanmqtt.conf"
 export DB_FILE="/data/enoceanmqtt_db.json"
 export DEVICE_FILE="$(bashio::config 'device_file')"
 export LOG_FILE="$(bashio::config 'log_file')"
-export MAPPING_FILE="$(bashio::config 'mapping_file')"
+#export MAPPING_FILE="$(bashio::config 'mapping_file')"
 bashio::log.blue "Retrieved devices file: $DEVICE_FILE"
 
 # Retrieve MQTT connection parameters
@@ -59,18 +63,23 @@ else
 fi
 
 # Create enoceanmqtt configuration file
+MQTT_PREFIX=$(bashio::config 'mqtt_prefix')
+MQTT_DISCOVERY_PREFIX=$(bashio::config 'mqtt_discovery_prefix')
+MQTT_PREFIX="${MQTT_PREFIX%/}/"
+MQTT_DISCOVERY_PREFIX="${MQTT_DISCOVERY_PREFIX%/}/"
+
 echo "[CONFIG]"                                                           > $CONFIG_FILE
 echo "enocean_port          = $(bashio::config 'enocean_port')"          >> $CONFIG_FILE
 echo "log_packets           = $(bashio::config 'log_packets')"           >> $CONFIG_FILE
 echo "overlay               = HA"                                        >> $CONFIG_FILE
 echo "db_file               = $DB_FILE"                                  >> $CONFIG_FILE
-echo "mapping_file          = $MAPPING_FILE"                             >> $CONFIG_FILE
-echo "mqtt_discovery_prefix = $(bashio::config 'mqtt_discovery_prefix')" >> $CONFIG_FILE
+#echo "mapping_file          = $MAPPING_FILE"                             >> $CONFIG_FILE
+echo "mqtt_discovery_prefix = $MQTT_DISCOVERY_PREFIX"                    >> $CONFIG_FILE
 echo "mqtt_host             = $MQTT_HOST"                                >> $CONFIG_FILE
 echo "mqtt_port             = $MQTT_PORT"                                >> $CONFIG_FILE
 echo "mqtt_client_id        = $(bashio::config 'mqtt_client_id')"        >> $CONFIG_FILE
 echo "mqtt_keepalive        = $(bashio::config 'mqtt_keepalive')"        >> $CONFIG_FILE
-echo "mqtt_prefix           = $(bashio::config 'mqtt_prefix')"           >> $CONFIG_FILE
+echo "mqtt_prefix           = $MQTT_PREFIX"                              >> $CONFIG_FILE
 echo "mqtt_user             = $MQTT_USER"                                >> $CONFIG_FILE
 echo "mqtt_pwd              = $MQTT_PSWD"                                >> $CONFIG_FILE
 echo "mqtt_debug            = $(bashio::config 'debug')"                 >> $CONFIG_FILE
