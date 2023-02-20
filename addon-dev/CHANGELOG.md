@@ -1,3 +1,8 @@
+## 0.1.25
+
+### Fixed
+- Fix issue mak-gitdev/HA_enoceanmqtt#41
+
 ## 0.1.24 
 
 ### Changed

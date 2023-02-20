@@ -3,7 +3,7 @@
 This is the [Home Assistant](https://www.home-assistant.io/) addon for [HA_enoceanmqtt](https://github.com/mak-gitdev/HA_enoceanmqtt).  
 HA_enoceanmqtt allows to easily have access to EnOcean devices in Home Assistant through MQTT.  
 
-<img src="https://raw.githubusercontent.com/mak-gitdev/HA_enoceanmqtt/master/.github/images/install_addon.svg" alt="Install Addon" width="75%"/>
+<img src="https://raw.githubusercontent.com/mak-gitdev/HA_enoceanmqtt-addon/master/.github/images/install_addon.svg" alt="Install Addon" width="75%"/>
 <br/>
 
 ## Migration from the old addon repository
@@ -33,6 +33,7 @@ The migration is possible without losing your current setup:
      **Tip**: Your device name can contain `/` e.g. `[lights/livingroom]`. This allows you to group your devices by type when exploring MQTT messages.
     - Indicate the location of your device file under the **device_file** entry.
     - Indicate the location of your mapping file under the **mapping_file** entry. Useful for people wanting to add support for new devices. Leave empty to use the default mapping file.
+    - Indicate the location of your EEP.xml file under the **eep_file** entry. Useful for people wanting to add support for new devices not already supported by the Python EnOcean library. Leave empty to use the default EEP.xml file.
     - Indicate your preferred location for the log file under the **log_file** entry. It shall be in your Home Assistant **/config** directory.
     - Select the serial interface of your EnOcean dongle in the list of detected serial ports. When using yaml configuration, the format is for example:
         ```yaml
