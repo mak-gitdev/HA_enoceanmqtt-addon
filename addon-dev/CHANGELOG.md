@@ -1,9 +1,26 @@
+## 0.1.26
+
+### Changed
+None
+
+### Added
+- Add virtual A5-10-06 (mak-gitdev/HA_enoceanmqtt#46)
+- Add '%' as unit of measurement for A5-20-01 current value field (mak-gitdev/HA_enoceanmqtt#53)
+- Update F6-02-[01-02] to send status bits
+
+### Fixed
+- Use latest enocean-mqtt version which fixes status bits setting (see mak-gitdev/HA_enoceanmqtt#65 and embyt/enocean-mqtt#41 for more details)
+- From now, use mak-gitdev/enocean as Python EnOcean Library which fixes "list index out of range error" thanks to @kridgo patch (see kipe/enocean#134 and kipe/enocean#138 for more details).
+
+### Removed
+None
+
 ## 0.1.25
 
 ### Fixed
 - Fix issue mak-gitdev/HA_enoceanmqtt#41
 
-## 0.1.24 
+## 0.1.24
 
 ### Changed
 - **Change devices and entities unique ids. This may lead to some devices loosing some configurations such as zones, etc.**

@@ -11,6 +11,7 @@ RUN apk add --no-cache python3 py3-pip git && \
     python3 -m pip install --upgrade pip && \
     pip3 install pyyaml && \
     pip3 install tinydb && \
+    pip3 install git+https://github.com/mak-gitdev/enocean.git && \
     git clone https://github.com/embyt/enocean-mqtt.git && \
     cd enocean-mqtt && python3 setup.py develop && cd .. && \
     if [ -z "${BUILD_VERSION##*.*.*}" ]; then \
@@ -21,8 +22,6 @@ RUN apk add --no-cache python3 py3-pip git && \
         git clone -b master --single-branch --depth 1 https://github.com/mak-gitdev/HA_enoceanmqtt.git ; \
     fi; \
     cp -rf HA_enoceanmqtt/enoceanmqtt enocean-mqtt && \
-    cp -rf HA_enoceanmqtt/enocean/protocol/EEP.xml \
-        $(find / -path ./HA_enoceanmqtt -prune -o -name "EEP.xml" -print -quit 2>/dev/null) && \
     rm -rf HA_enoceanmqtt
 
 # Copy data for add-on
