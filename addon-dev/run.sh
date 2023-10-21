@@ -62,6 +62,22 @@ else
   export DEBUG_FLAG=""
 fi
 
+# Device name in entity name
+HA_VERSION="$(bashio::core.version)"
+
+if [ "${HA_VERSION}" \> "2023.8" ] || [ "${HA_VERSION}" \= "2023.8" ]; then
+  if [ "${HA_VERSION}" \> "2024.2" ] || [ "${HA_VERSION}" \= "2024.2" ]; then
+    bashio::log.green "Overwrite use_dev_name_in_entity to FALSE"
+    USE_DEV_NAME_IN_ENTITY="False"
+  else
+    USE_DEV_NAME_IN_ENTITY="$(bashio::config 'use_dev_name_in_entity')"
+    bashio::log.green "use_dev_name_in_entity is USER-DEFINED (${USE_DEV_NAME_IN_ENTITY})"
+  fi
+else
+  bashio::log.green "Overwrite use_dev_name_in_entity to TRUE"
+  USE_DEV_NAME_IN_ENTITY="True"
+fi
+
 # Create enoceanmqtt configuration file
 MQTT_PREFIX=$(bashio::config 'mqtt_prefix')
 MQTT_DISCOVERY_PREFIX=$(bashio::config 'mqtt_discovery_prefix')
@@ -74,6 +90,7 @@ echo "log_packets           = $(bashio::config 'log_packets')"           >> $CON
 echo "overlay               = HA"                                        >> $CONFIG_FILE
 echo "db_file               = $DB_FILE"                                  >> $CONFIG_FILE
 echo "mapping_file          = $MAPPING_FILE"                             >> $CONFIG_FILE
+echo "ha_dev_name_in_entity = $USE_DEV_NAME_IN_ENTITY"                   >> $CONFIG_FILE
 echo "mqtt_discovery_prefix = $MQTT_DISCOVERY_PREFIX"                    >> $CONFIG_FILE
 echo "mqtt_host             = $MQTT_HOST"                                >> $CONFIG_FILE
 echo "mqtt_port             = $MQTT_PORT"                                >> $CONFIG_FILE

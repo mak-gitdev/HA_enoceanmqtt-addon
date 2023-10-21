@@ -1,11 +1,13 @@
 name: "EnOcean MQTT (dev)"
 description: "EnOcean to MQTT bridge for Home Assistant"
 url: "https://github.com/mak-gitdev/HA_enoceanmqtt-addon"
-version: "0.1.26"
+version: "0.1.27"
 slug: "ha_enoceanmqtt_dev"
 stage: "experimental"
 init: false
 uart: true
+hassio_api: true
+homeassistant_api: true
 startup: "application"
 services:
   - "mqtt:need"
@@ -25,6 +27,7 @@ options:
   enocean_port: ""
   debug: false
   log_packets: false
+  use_dev_name_in_entity: false
   mqtt_broker: {}
   mqtt_discovery_prefix: "homeassistant"
   mqtt_prefix: "enoceanmqtt"
@@ -38,6 +41,7 @@ schema:
   enocean_port: "device(subsystem=tty)"
   debug: "bool?"
   log_packets: "bool?"
+  use_dev_name_in_entity: "bool?"
   mqtt_broker:
     host: "str?"
     port: "str?"

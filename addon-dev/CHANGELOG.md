@@ -1,3 +1,29 @@
+## 0.1.27
+
+### Changed
+None
+
+### Added
+- Add support for:
+   - D2-01-01
+   - D2-01-09
+   - A5-09-04
+   - A5-30-03
+   - A5-30-04
+   - A5-38-08 (Command 2)
+- Added new configuration entry `use_dev_name_in_entity` to select whether to use device name in the name of entities.   
+   This is for users of HA versions from 2023.8.1 to the one before 2024.2.0.   
+   For users of version before 2023.8.1, this entry is internally forced to true.   
+   For users of version starting from 2024.2.0, this will be internally forced to false.   
+
+### Fixed
+- Fixes device selection error (see mak-gitdev/HA_enoceanmqtt#73 and embyt/enocean-mqtt#43 for more details)
+- Fix issue mak-gitdev/HA_enoceanmqtt#77 related to MQTT entity naming
+- Fix issue mak-gitdev/HA_enoceanmqtt#72
+
+### Removed
+None
+
 ## 0.1.26
 
 ### Changed
