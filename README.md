@@ -66,7 +66,7 @@ See [Usage](https://github.com/mak-gitdev/HA_enoceanmqtt/wiki/Usage) for more in
 
 
 ## Issues
-Any issue should be open on the HA\_enoceanmqtt [issue tracker](https://github.com/mak-gitdev/HA_enoceanmqtt/issues).
+Issues should be reported on the HA\_enoceanmqtt [issue tracker](https://github.com/mak-gitdev/HA_enoceanmqtt/issues).
 
 
 ## Versions
