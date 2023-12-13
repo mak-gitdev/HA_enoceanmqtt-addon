@@ -1,3 +1,11 @@
+## 0.1.28-1
+
+**Fix installation issue reported in mak-gitdev/ha_enoceanmqtt#106**
+**Fix version comparison related to MQTT device name in entity (mak-gitdev/ha_enoceanmqtt#77)**
+
+It is not required to install this version if none of the fixes above is of interest for you.
+**If you want to upgrade to this version, I can all but recommend to make a backup before.**
+
 ## 0.1.28
 
 **Important**: Add a new cover entity (cover2) for D2-05-00. This should fix inverted position issue (thanks to @didi31).

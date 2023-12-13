@@ -64,14 +64,26 @@ fi
 
 # Device name in entity name
 HA_VERSION="$(bashio::core.version)"
+Year=$(echo ${HA_VERSION//[!0-9.]/} | cut -d '.' -f 1)
+Month=$(echo ${HA_VERSION//[!0-9.]/} | cut -d '.' -f 2)
 
-if [ "${HA_VERSION}" \> "2023.8" ] || [ "${HA_VERSION}" \= "2023.8" ]; then
-  if [ "${HA_VERSION}" \> "2024.2" ] || [ "${HA_VERSION}" \= "2024.2" ]; then
-    bashio::log.green "Overwrite use_dev_name_in_entity to FALSE"
-    USE_DEV_NAME_IN_ENTITY="False"
+if [ ${Year} -ge 2023 ]; then
+  if [ ${Year} -eq 2023 ]; then
+    if [ ${Month} -lt 8 ]; then
+      bashio::log.green "Overwrite use_dev_name_in_entity to TRUE"
+      USE_DEV_NAME_IN_ENTITY="True"
+    else
+      USE_DEV_NAME_IN_ENTITY="$(bashio::config 'use_dev_name_in_entity')"
+      bashio::log.green "use_dev_name_in_entity is USER-DEFINED (${USE_DEV_NAME_IN_ENTITY})"
+    fi
   else
-    USE_DEV_NAME_IN_ENTITY="$(bashio::config 'use_dev_name_in_entity')"
-    bashio::log.green "use_dev_name_in_entity is USER-DEFINED (${USE_DEV_NAME_IN_ENTITY})"
+    if [ ${Year} -eq 2024 ] && [ ${Month} -lt 2 ]; then
+      USE_DEV_NAME_IN_ENTITY="$(bashio::config 'use_dev_name_in_entity')"
+      bashio::log.green "use_dev_name_in_entity is USER-DEFINED (${USE_DEV_NAME_IN_ENTITY})"
+    else
+      bashio::log.green "Overwrite use_dev_name_in_entity to FALSE"
+      USE_DEV_NAME_IN_ENTITY="False"
+    fi
   fi
 else
   bashio::log.green "Overwrite use_dev_name_in_entity to TRUE"
@@ -119,4 +131,5 @@ if ! bashio::config.is_empty 'eep_file'; then
 fi
 
 bashio::log.green "Starting EnOceanMQTT..."
+. /app/venv/bin/activate
 enoceanmqtt $DEBUG_FLAG --logfile $LOG_FILE $CONFIG_FILE
