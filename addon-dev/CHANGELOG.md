@@ -1,3 +1,9 @@
+## 0.1.28-2
+
+**Quick fix for installation issue reported in mak-gitdev/ha_enoceanmqtt#122**
+
+**You are not required to upgrade to this version. The issue fixed only impacts new users/installations.**
+
 ## 0.1.28-1
 
 **Fix installation issue reported in mak-gitdev/ha_enoceanmqtt#106**
